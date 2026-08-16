@@ -1,0 +1,193 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { education, experience, profile, skills } from '../data/resume';
+import { getSpotifyPlaylist } from '../data/spotify';
+const title = 'Shawn Salat | Software Engineer';
+const description = 'Shawn Salat is a software engineer building reliable web and mobile products with React, React Native, GraphQL, and JavaScript.';
+const personJsonLd = { '@context': 'https://schema.org', '@type': 'Person', name: profile.name, url: profile.site, image: `${profile.site}/images/shawn-salat.jpg`, jobTitle: profile.title, email: profile.email, sameAs: [profile.github, profile.linkedin], knowsAbout: skills };
+const spotifyPlaylist = await getSpotifyPlaylist();
+const spotifyTracks = spotifyPlaylist.tracks;
+const loopedSpotifyTracks = [...spotifyTracks, ...spotifyTracks.slice(0, 4)];
+const spotifyTrackHref = (id: string) => `https://open.spotify.com/track/${id}?context=spotify%3Aplaylist%3A${spotifyPlaylist.id}`;
+---
+<BaseLayout {title} {description}>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header"><a class="wordmark" href="/" aria-label="SS. — Shawn Salat home">SS<span>.</span></a><nav aria-label="Primary navigation"><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#education">Education</a><a href="#contact">Contact</a></nav></header>
+  <main id="main">
+    <section class="hero hero--selected" aria-labelledby="page-title">
+      <h1 id="page-title" aria-label={`Shawn Salat: ${profile.title}<Frontend, Backend, AI Systems>`}><span class="title-name">Shawn Salat</span><span class="title-separator" aria-hidden="true">:</span><span class="title-type"><span class="title-role">{profile.title}</span><span class="title-specialties"><span class="title-bracket">&lt;</span><span class="title-argument">Frontend</span><span class="title-punctuation">, </span><span class="title-argument">Backend</span><span class="title-punctuation">, </span><span class="title-argument">AI Systems</span><span class="title-bracket">&gt;</span></span></span></h1>
+      <div class="hero-body">
+        <div class="hero-middle">
+          <figure class="hero-portrait"><img src="/images/shawn-salat.jpg" width="400" height="400" alt="Shawn Salat" fetchpriority="high" decoding="async" /></figure>
+          <div class="hero-blurb">
+            <p class="intro">{profile.professionalSummary}</p>
+            <p class="personal-intro">Outside work, I’m usually taking photos with my Sony A7 II, listening to music (<button class="music-reveal" type="button" aria-expanded="false" aria-controls="listening-lately" data-music-reveal><span>listening lately</span><svg class="music-chevron" aria-hidden="true" viewBox="0 0 16 16"><path d="m6 3.5 4.5 4.5L6 12.5" /></svg></button>), or playing video games.</p>
+            <aside id="listening-lately" class="spotify-strip" aria-label={`Listening lately: ${spotifyPlaylist.name}`} data-spotify-strip hidden>
+              <div class="spotify-heading">
+                <span class="spotify-label">Listening lately</span>
+                <div class="spotify-controls"><button class="spotify-toggle" type="button" aria-label="Pause rotating tracks" data-spotify-toggle>Pause rotation</button><a class="spotify-playlist" href={spotifyPlaylist.href} target="_blank" rel="noreferrer" aria-label={`Open ${spotifyPlaylist.name} on Spotify`}>Playlist ↗</a></div>
+              </div>
+              <div class="spotify-reel" data-spotify-window tabindex="0" role="region" aria-label={`Scrollable playlist, ${spotifyTracks.length} tracks; five visible at once`}>
+                <ol class="spotify-track-list" data-spotify-list>
+                  {loopedSpotifyTracks.map((item, index) => {
+                    const trackIndex = index % spotifyTracks.length;
+                    const isClone = index >= spotifyTracks.length;
+                    return (
+                      <li class="spotify-row" data-spotify-row data-track-index={trackIndex} data-loop-clone={isClone ? '' : undefined} aria-hidden={isClone ? 'true' : undefined}>
+                        <span class="spotify-index">{String(trackIndex + 1).padStart(2, '0')}</span>
+                        <a class="spotify-art" href={spotifyTrackHref(item.id)} target="_blank" rel="noreferrer" tabindex={isClone ? -1 : undefined}><img src={item.image} width="36" height="36" loading="lazy" decoding="async" alt="" /></a>
+                        <a class="spotify-track" href={spotifyTrackHref(item.id)} target="_blank" rel="noreferrer" tabindex={isClone ? -1 : undefined} aria-label={`${item.title} by ${item.artist} on Spotify`} title={`${item.title} — ${item.artist}`}><strong>{item.title}</strong><span>{item.artist}</span></a>
+                        <button class="spotify-audio" type="button" tabindex={isClone ? -1 : undefined} aria-label={`Play preview of ${item.title}`} title="Play song preview" data-spotify-audio-toggle data-preview={item.preview ?? undefined} data-track-id={item.id} data-track-title={item.title} disabled={!item.preview}><svg aria-hidden="true" viewBox="0 0 16 16"><path class="spotify-audio-play" d="m5 3 8 5-8 5z" /><path class="spotify-audio-pause" d="M4 3h3v10H4zm5 0h3v10H9z" /></svg></button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+              <audio preload="none" data-spotify-audio></audio>
+            </aside>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <div class="actions" aria-label="Primary actions"><a class="button button-primary" href="/files/Shawn_Salat_Resume.pdf" download>Download resume <span aria-hidden="true">↓</span></a><a class="button button-secondary" href={`mailto:${profile.email}`}>Email me</a></div>
+        </div>
+      </div>
+    </section>
+    <section id="experience" class="section" aria-labelledby="experience-title"><h2 id="experience-title">Experience</h2><div class="timeline">{experience.map((role, index) => <article class:list={['role-card', { 'role-card--recent': index < 3 }]}><div class="role-heading"><div><h3>{role.title}</h3><p class="company">{role.company}</p></div><p class="date">{role.dates}</p></div><ul>{role.bullets.map((bullet) => <li>{bullet}</li>)}</ul></article>)}</div></section>
+    <section id="skills" class="section focus" aria-labelledby="skills-title"><h2 id="skills-title">Core skills</h2><ul class="skill-list">{skills.map((skill) => <li>{skill}</li>)}</ul></section>
+    <section id="education" class="section education" aria-labelledby="education-title"><h2 id="education-title">Education</h2><div class="education-grid">{education.map((item) => <article><h3>{item.school}</h3><p>{item.credential}</p><p class="date">{item.dates}</p></article>)}</div></section>
+  </main>
+  <footer id="contact"><p>Interested in working together?</p><a class="footer-email" href={`mailto:${profile.email}`}>{profile.email}</a><ul class="footer-links" aria-label="Professional profiles"><li><a href={profile.linkedin} rel="me">LinkedIn</a></li><li><a href={profile.github} rel="me">GitHub</a></li></ul><p class="fine-print">© {new Date().getFullYear()} Shawn Salat</p></footer>
+  <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  <script define:vars={{ spotifyPlaylist }}>
+    const strip = document.querySelector('[data-spotify-strip]');
+    if (strip) {
+      const revealButton = document.querySelector('[data-music-reveal]');
+      const toggle = strip.querySelector('[data-spotify-toggle]');
+      const trackWindow = strip.querySelector('[data-spotify-window]');
+      const trackList = strip.querySelector('[data-spotify-list]');
+      const audioToggles = [...strip.querySelectorAll('[data-spotify-audio-toggle]')];
+      const audio = strip.querySelector('[data-spotify-audio]');
+      let firstTrackIndex = 0;
+      let timer;
+      let transitionTimer;
+      let manualScrollTimer;
+      let paused = false;
+      let started = false;
+      let programmaticScroll = false;
+
+      const scheduleRotation = () => {
+        window.clearTimeout(timer);
+        if (!started || paused) return;
+        timer = window.setTimeout(advanceTracks, 5000);
+      };
+
+      const setActivePreview = (trackId) => {
+        audioToggles.forEach((button) => {
+          const active = Boolean(trackId) && button.dataset.trackId === trackId;
+          button.classList.toggle('is-playing', active);
+          button.setAttribute('aria-label', `${active ? 'Pause' : 'Play'} preview of ${button.dataset.trackTitle}`);
+          button.setAttribute('title', `${active ? 'Pause' : 'Play'} song preview`);
+        });
+      };
+
+      const stopPreview = () => {
+        if (!audio.paused) audio.pause();
+        audio.currentTime = 0;
+        setActivePreview(null);
+      };
+
+      const scrollToTrack = (displayIndex, behavior = 'smooth') => {
+        const row = trackList.children[displayIndex];
+        if (!row) return;
+        trackWindow.scrollTo({ top: row.offsetTop - trackList.offsetTop, behavior });
+      };
+
+      const advanceTracks = () => {
+        if (paused) return;
+        const nextTrackIndex = (firstTrackIndex + 1) % spotifyPlaylist.tracks.length;
+        const displayIndex = nextTrackIndex === 0 ? spotifyPlaylist.tracks.length : nextTrackIndex;
+        programmaticScroll = true;
+        scrollToTrack(displayIndex);
+        window.clearTimeout(transitionTimer);
+        transitionTimer = window.setTimeout(() => {
+          firstTrackIndex = nextTrackIndex;
+          if (firstTrackIndex === 0) scrollToTrack(0, 'auto');
+          programmaticScroll = false;
+          scheduleRotation();
+        }, 450);
+      };
+
+      const setRotationPaused = (nextPaused) => {
+        paused = nextPaused;
+        toggle.textContent = paused ? 'Resume rotation' : 'Pause rotation';
+        toggle.setAttribute('aria-label', paused ? 'Resume rotating tracks' : 'Pause rotating tracks');
+        if (paused) {
+          window.clearTimeout(timer);
+          window.clearTimeout(transitionTimer);
+          window.clearTimeout(manualScrollTimer);
+          programmaticScroll = false;
+        } else {
+          stopPreview();
+          scheduleRotation();
+        }
+      };
+
+      trackWindow.addEventListener('scroll', () => {
+        if (programmaticScroll) return;
+        const rowHeight = trackList.firstElementChild?.offsetHeight || 1;
+        const rawIndex = Math.round(trackWindow.scrollTop / rowHeight);
+        firstTrackIndex = rawIndex % spotifyPlaylist.tracks.length;
+        window.clearTimeout(timer);
+        window.clearTimeout(manualScrollTimer);
+        manualScrollTimer = window.setTimeout(() => {
+          if (rawIndex >= spotifyPlaylist.tracks.length) scrollToTrack(0, 'auto');
+          scheduleRotation();
+        }, 220);
+      });
+      revealButton.addEventListener('click', () => {
+        const expanded = revealButton.getAttribute('aria-expanded') !== 'true';
+        revealButton.setAttribute('aria-expanded', String(expanded));
+        strip.hidden = !expanded;
+        if (expanded) {
+          strip.animate?.([
+            { opacity: 0, transform: 'translateY(-0.45rem) scaleY(0.94)' },
+            { opacity: 1, transform: 'translateY(0) scaleY(1)' },
+          ], { duration: 260, easing: 'cubic-bezier(0, .55, .45, 1)' });
+          started = true;
+          scheduleRotation();
+        } else {
+          window.clearTimeout(timer);
+          window.clearTimeout(transitionTimer);
+          window.clearTimeout(manualScrollTimer);
+          stopPreview();
+        }
+      });
+      toggle.addEventListener('click', () => {
+        setRotationPaused(!paused);
+      });
+      audio.addEventListener('play', () => setActivePreview(audio.dataset.trackId));
+      audio.addEventListener('pause', () => setActivePreview(null));
+      audio.addEventListener('ended', () => setActivePreview(null));
+      audio.addEventListener('error', () => setActivePreview(null));
+      audioToggles.forEach((button) => button.addEventListener('click', async () => {
+        const { preview, trackId } = button.dataset;
+        if (!preview || !trackId || button.disabled) return;
+        setRotationPaused(true);
+        if (!audio.paused && audio.dataset.trackId === trackId) {
+          audio.pause();
+          audio.currentTime = 0;
+          return;
+        }
+        audio.pause();
+        audio.src = preview;
+        audio.dataset.trackId = trackId;
+        setActivePreview(trackId);
+        try {
+          await audio.play();
+        } catch {
+          setActivePreview(null);
+        }
+      }));
+    }
+  </script>
+</BaseLayout>

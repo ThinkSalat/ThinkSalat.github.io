@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Use fewer borders</title>
+  <desc id="desc">A heavily bordered panel is contrasted with a quiet surface that uses spacing, subtle tonal shifts, and one emphasized action.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#9c4221"/></marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#102a43" flood-opacity=".12"/></filter>
+  </defs>
+  <rect width="1200" height="720" fill="#f7f9fc"/>
+  <text x="60" y="66" fill="#102a43" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="760" text-anchor="start">Use fewer borders</text>
+  <text x="60" y="102" fill="#52606d" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="500" text-anchor="start">Space, surface tone, and shadow can separate content without drawing every boundary.</text>
+  
+    <text x="80" y="160" fill="#b42318" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="760" text-anchor="start">BOUNDARIES EVERYWHERE</text>
+    <rect x="80" y="190" width="470" height="390" rx="10" fill="#ffffff" stroke="#102a43" stroke-width="2"/>
+    <rect x="110" y="220" width="410" height="80" rx="6" fill="#ffffff" stroke="#102a43" stroke-width="2"/><rect x="110" y="320" width="195" height="100" rx="6" fill="#ffffff" stroke="#102a43" stroke-width="2"/><rect x="325" y="320" width="195" height="100" rx="6" fill="#ffffff" stroke="#102a43" stroke-width="2"/><rect x="110" y="440" width="410" height="105" rx="6" fill="#ffffff" stroke="#102a43" stroke-width="2"/>
+    <text x="650" y="160" fill="#2f7d5b" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="760" text-anchor="start">SEPARATION WITHOUT NOISE</text>
+    <rect x="650" y="190" width="470" height="390" rx="22" fill="#f0f4f8" stroke="none" stroke-width="2"/>
+    <text x="695" y="255" fill="#102a43" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="740" text-anchor="start">One quiet field</text><rect x="695" y="292" width="345" height="8" rx="4" fill="#52606d"/><rect x="695" y="316" width="310" height="8" rx="4" fill="#52606d"/>
+    <rect x="695" y="375" width="180" height="95" rx="12" fill="#ffffff" stroke="none" stroke-width="2"/><rect x="895" y="375" width="180" height="95" rx="12" fill="#ffffff" stroke="none" stroke-width="2"/>
+    <rect x="695" y="505" width="170" height="50" rx="7" fill="#9c4221" stroke="none" stroke-width="2"/><text x="780" y="537" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="720" text-anchor="middle">Primary action</text>
+  
+  <line x1="60" y1="672" x2="1140" y2="672" stroke="#bcccdc" stroke-width="1"/>
+  <text x="60" y="700" fill="#52606d" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700" text-anchor="start">DESIGN STUDY · 06-FEWER-BORDERS</text>
+</svg>
